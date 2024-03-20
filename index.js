@@ -9,7 +9,10 @@ app.use(express.json());
 
 // File Upload middleware
 const fileUpload = require("express-fileupload");
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles:true,
+    tempFileDir:'/tmp/'
+}));
 
 // Import Database Connection Method
 const dbConnect = require("./config/database");
