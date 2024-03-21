@@ -49,6 +49,7 @@ async function uploadFileToCloudinary(file , folder){
 
     const options = {folder};
     console.log("tempFilePath",file.tempFilePath);
+    options.resource_type = "auto";
     return await cloudinary.uploader.upload(file.tempFilePath, options);
 
 }
@@ -98,7 +99,7 @@ exports.imageUpload = async(req,res)=>{
             name,
             tags,
             email,
-            imageUrl:response.url,
+            imageUrl:response.secure_url,
         })
 
         // console.log('Printing the File Data');
@@ -121,6 +122,72 @@ exports.imageUpload = async(req,res)=>{
             success:false,
             message:'Something went wrong'
         })
+
+    }
+}
+
+// Video Upload Handler
+exports.videoUpload = async(req,res) =>{
+
+    try{
+
+        // Fetch the data from request 
+        const { name, tags, email } = req.body;
+        console.log(name,tags,email);
+
+        // Fetch the video from the request body
+        const file = req.files.myVideo;
+        
+        // Validation
+        const fileType = path.extname(file.name).toLowerCase();
+        console.log(fileType);
+
+        const supportedFileTypes = [".mp4",".mov"];
+
+
+        // TODO: add an upper limit of 5MB
+        if(!isFileTypeSupported(fileType , supportedFileTypes)){
+
+            return res.status(400).json({
+
+                success:false,
+                message:"File Type not supported",
+            })
+        }
+
+        // Now, upload the video file to the cloudinary
+        console.log('Uploading the file to Cloudinary');
+        const response = await uploadFileToCloudinary(file , "Project-FileUpload");
+        console.log(response);
+
+        // Save the entry into the DB
+        const fileData = await File.create({
+
+            name,
+            tags,
+            email,
+            imageUrl:response.secure_url,
+
+        });
+
+        return res.status(200).json({
+
+            success:true,
+            imageUrl:response.secure_url,
+            message:"Video successfully uploaded",
+        })
+
+
+    }
+
+    catch(err){
+
+        return res.status(400).json({
+
+            success:false,
+            message:'Something went wrong'
+        })
+
 
     }
 }
