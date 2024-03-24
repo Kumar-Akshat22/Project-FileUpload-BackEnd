@@ -11,7 +11,7 @@ const fileSchema = new mongoose.Schema({
 
     },
 
-    imageUrl:{
+    fileUrl:{
 
         type:String
     },
@@ -53,13 +53,13 @@ fileSchema.post('save' , async function(doc){
             from: "MyServer",
             to: doc.email,
             subject: "New file uploaded to Cloudinary",
-            html: `<h2>Hello, Guys</h2> <p>File Uploaded <a href="${doc.imageUrl}">Click Here</a></p>`,
+            html: `<h2>Hello, Guys</h2> <p>File Uploaded <a href="${doc.fileUrl}">Click Here</a></p>`,
 
         });
 
         console.log("INFO->",info)
     }
-
+    
     catch(error){
 
         console.error(error);

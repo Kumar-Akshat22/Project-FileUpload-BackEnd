@@ -75,10 +75,7 @@ exports.imageUpload = async(req,res)=>{
 
         // Validation
         const supportedFileTypes = [".jpg",".jpeg",".png"];
-        // const fileType = file.name.split('.')[1].toLowerCase();
         const fileType = path.extname(file.name).toLowerCase();
-        console.log(fileType);
-
 
         // Check whether the file type is supported or not
         if(!isFileTypeSupported(fileType , supportedFileTypes)){
@@ -106,19 +103,13 @@ exports.imageUpload = async(req,res)=>{
             name,
             tags,
             email,
-            imageUrl:response.secure_url,
+            fileUrl:response.secure_url,
         })
-
-        // console.log('Printing the File Data');
-        // console.log(fileData);
 
         res.status(200).json({
             success:true,
-            // imageUrl:response.secure_url,
-            // message:"Image successfully uploaded"
+            message:"Image successfully uploaded"
         })
-
-        
     }
 
     catch(err){
@@ -146,10 +137,8 @@ exports.videoUpload = async(req,res) =>{
         const file = req.files.myVideo;
         
         // Validation
-        const fileType = path.extname(file.name).toLowerCase();
-        console.log(fileType);
-
         const supportedFileTypes = [".mp4",".mov"];
+        const fileType = path.extname(file.name).toLowerCase();
 
 
         // TODO: add an upper limit of 5MB
@@ -173,14 +162,14 @@ exports.videoUpload = async(req,res) =>{
             name,
             tags,
             email,
-            imageUrl:response.secure_url,
+            fileUrl:response.secure_url,
 
         });
 
         return res.status(200).json({
 
             success:true,
-            imageUrl:response.secure_url,
+            fileUrl:response.secure_url,
             message:"Video successfully uploaded",
         })
 
@@ -240,12 +229,12 @@ exports.imageSizeReducer = async(req,res) => {
             name,
             tags,
             email,
-            imageUrl:response.secure_url,
+            fileUrl:response.secure_url,
         });
 
         res.status(200).json({
             success:true,
-            // imageUrl:response.secure_url,
+            // fileUrl:response.secure_url,
             // message:"Image successfully uploaded"
         })
 
