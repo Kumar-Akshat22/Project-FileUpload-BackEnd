@@ -9,7 +9,7 @@ function isUnderLimit(file,upperLimit){
 
 }
 
-exports.checkSize = async(req,res,next) => {
+exports.checkImageSize = async(req,res,next) => {
 
     try{
 
