@@ -198,8 +198,7 @@ exports.imageSizeReducer = async(req,res) => {
 
         // Fetch the Image from the request body
         const file = req.files.Image;
-        
-        // TODO: add an upper limit of size to the image
+
         // TODO: reduce the size of the image by adjusting height attribute
         // Validation
         const fileType = path.extname(file.name).toLowerCase();
